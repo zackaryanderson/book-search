@@ -14,7 +14,7 @@ const SavedBooks = () => {
 
   const { loading, data } = useQuery(GET_ME);
 
-  const [deleteBook, {error}] = useMutation(REMOVE_BOOK);
+  const [removeBook, {error}] = useMutation(REMOVE_BOOK);
 
   const userData = data?.me || [];
 
@@ -55,10 +55,15 @@ const SavedBooks = () => {
     }
 
     try {
-      const {data} = await deleteBook({
+      const {data} = await removeBook({
         variables: {bookId}
       });
 
+      if (error) {
+        throw new Error("something went wrong");
+      }
+
+      console.log(data);
       //const updatedUser = await response.json();
       //setUserData(updatedUser);
       // upon success, remove book's id from localStorage
